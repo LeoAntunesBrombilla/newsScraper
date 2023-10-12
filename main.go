@@ -65,7 +65,7 @@ func fetchArticleText(url string, htmlComponent string, htmlElement string) {
 	}
 }
 
-func fetchNews(htmlElement string, url string) {
+func fetchNews(htmlElement, url, articleComponent, articleElement string) {
 	var continueFetching = true
 	titles := make([]string, 0, 10)
 	links := make(map[string]string)
@@ -121,7 +121,7 @@ func fetchNews(htmlElement string, url string) {
 			fmt.Println("Acessando notícia...")
 			url := links[result]
 
-			fetchArticleText(url, "div.jupiter-paragraph-fragment", "p")
+			fetchArticleText(url, articleComponent, articleElement)
 			continueFetching = false
 		}
 	}
@@ -157,13 +157,13 @@ func main() {
 		switch result {
 		case "Globo":
 			fmt.Println("Fetching news from Globo...")
-			fetchNews(".feed-post-body", "https://g1.globo.com/")
+			fetchNews(".container", "https://globo.com/", "div.post ", "p")
 		case "UOL":
 			fmt.Println("Fetching news from UOL...")
-			fetchNews("a.relatedList__related", "https://www.uol.com.br/")
+			fetchNews("a.relatedList__related", "https://www.uol.com.br/", "div.c-news__body", "p")
 		case "Terra":
 			fmt.Println("Fetching news from Terra...")
-			fetchNews("a.card-news__text--title", "https://www.terra.com.br/noticias/")
+			fetchNews("a.card-news__text--title", "https://www.terra.com.br/noticias/", "div.article__content--body", "p.text")
 		default:
 			fmt.Println("Invalid choice")
 		}
